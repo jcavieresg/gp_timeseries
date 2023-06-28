@@ -115,4 +115,39 @@ legend(x = "topleft",                    # Position
        lty = c(NA, 1),                   # Line types
        col = c("blue", "grey"),          # Line colors
        lwd = 2,
-       cex = 1.2)                 
+       cex = 1.2)  
+
+par_dat <-  posterior %>% spread_draws(alpha, rho, sigma)
+
+plot1 <- ggplot(par_dat, aes(x = alpha)) +
+         stat_halfeye() +
+         geom_vline(data = tibble(sigma_gp), aes(xintercept = sigma_gp, colour = "Valor inicial"))+
+         labs(x = "alpha", y = "y", colour = "") + 
+         theme(axis.text=element_text(size=12),
+         axis.text.x = element_text(size = 12, face="bold"), 
+         axis.text.y = element_text(size = 12, face="bold"),
+         axis.title=element_text(size=14, face="bold"),
+         legend.text=element_text(size = 18))
+
+plot2 <- ggplot(par_dat, aes(x = rho)) +
+         stat_halfeye() +
+         geom_vline(data = tibble(phi), aes(xintercept = phi, colour = "Valor inicial"))+
+         labs(x = "rho", y = "y", colour = "") + 
+         theme(axis.text=element_text(size=12),
+         axis.text.x = element_text(size = 12, face="bold"), 
+         axis.text.y = element_text(size = 12, face="bold"),
+         axis.title=element_text(size=14, face="bold"),
+         legend.text=element_text(size = 18))
+
+plot3 <- ggplot(par_dat, aes(x = sigma)) +
+         stat_halfeye() +
+         geom_vline(data = tibble(sigma_y), aes(xintercept = sigma_y, colour = "Valor inicial"))+
+         labs(x = "sigma", y = "y", colour = "") + 
+         theme(axis.text=element_text(size=12),
+         axis.text.x = element_text(size = 12, face="bold"), 
+         axis.text.y = element_text(size = 12, face="bold"),
+         axis.title=element_text(size=14, face="bold"),
+         legend.text=element_text(size = 18))
+
+grid.arrange(plot2, plot1, plot3, ncol = 1)
+
