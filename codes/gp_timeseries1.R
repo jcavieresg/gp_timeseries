@@ -18,7 +18,7 @@ x <- seq(0, 1, len = n)
 alpha <- 2 
 rho <- 0.05
 
-
+# Cov mat (exponential quadratic function)
 K <- matrix(rep(0, n*n), nrow = n) 
 for (i in 1:n) {
   for (j in 1:n) { 
@@ -46,7 +46,7 @@ matplot(x, t(gp),
 sigma_y <- 1.0
 epsilon <- rnorm(length(x), 0, sigma_y) # random noise (mean = 0, sigma = sigma_y)
 
-# GP (again with only 1 draw)
+# GP (again but now with only 1 draw)
 gp <- rmvnorm(1, sigma=(sigma_gp^2)*K) 
 
 # Simulating the response variable
@@ -109,49 +109,10 @@ for(i in 1:100){
 }
 
 points(x, y, pch = 20, col = "blue", bg=5, cex = 1.5)
-legend(x = "topleft",          # Position
+legend(x = "topleft",                    # Position
        legend = c("Points", "GP_pred"),  # Legend texts
        pch = c(19, NA),
-       lty = c(NA, 1),           # Line types
-       col = c("blue", "grey"),           # Line colors
+       lty = c(NA, 1),                   # Line types
+       col = c("blue", "grey"),          # Line colors
        lwd = 2,
-       cex = 1.2)                 # Line width
-
-
-
-
-par_dat <-  posterior %>% spread_draws(alpha, rho, sigma)
-
-plot1 <- ggplot(par_dat, aes(x = alpha)) +
-  stat_halfeye() +
-  geom_vline(data = tibble(sigma_gp), aes(xintercept = sigma_gp, colour = "Valor inicial"))+
-  labs(x = "alpha", y = "y", colour = "") + 
-  theme(axis.text=element_text(size=12),
-        axis.text.x = element_text(size = 12, face="bold"), 
-        axis.text.y = element_text(size = 12, face="bold"),
-        axis.title=element_text(size=14, face="bold"),
-        legend.text=element_text(size = 18))
-
-
-plot2 <- ggplot(par_dat, aes(x = rho)) +
-  stat_halfeye() +
-  geom_vline(data = tibble(phi), aes(xintercept = phi, colour = "Valor inicial"))+
-  labs(x = "rho", y = "y", colour = "") + 
-  theme(axis.text=element_text(size=12),
-        axis.text.x = element_text(size = 12, face="bold"), 
-        axis.text.y = element_text(size = 12, face="bold"),
-        axis.title=element_text(size=14, face="bold"),
-        legend.text=element_text(size = 18))
-
-
-plot3 <- ggplot(par_dat, aes(x = sigma)) +
-  stat_halfeye() +
-  geom_vline(data = tibble(sigma_y), aes(xintercept = sigma_y, colour = "Valor inicial"))+
-  labs(x = "sigma", y = "y", colour = "") + 
-  theme(axis.text=element_text(size=12),
-        axis.text.x = element_text(size = 12, face="bold"), 
-        axis.text.y = element_text(size = 12, face="bold"),
-        axis.title=element_text(size=14, face="bold"),
-        legend.text=element_text(size = 18))
-
-grid.arrange(plot2, plot1, plot3, ncol = 1)
+       cex = 1.2)                 
