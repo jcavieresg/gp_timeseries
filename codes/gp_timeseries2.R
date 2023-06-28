@@ -39,7 +39,7 @@ head(data2$ID)
 #data_ts = list(N = nrow(data2), x1 = data2$ID, y1 = data2$AAPL.Close)
 
 
-N_predict = 50
+N_predict = 20
 x_predict = seq(range(data2$ID)[1], 503, length.out = N_predict)
 N_obs = 100
 Obs = sort(sample(1:length(data2$ID), N_obs))
@@ -51,9 +51,9 @@ stan_data <- list(N1 = N_obs, x1 = data2$ID[Obs], y1 = data2$AAPL.Close[Obs],
 
 # Stan model
 startTime <- Sys.time()
-pred_stan <- stan(file='gp_timeseries2.stan', data = stan_data, 
+pred_stan <- stan(file='gp_timeseries4.stan', data = stan_data, 
                   iter = 3000, chains = 3, warmup = 1000, 
-                  control = list(max_treedepth = 10, adapt_delta = 0.8), 
+                  control = list(max_treedepth = 8, adapt_delta = 0.8), 
                   cores = no_cores, open_progress=FALSE, seed=483892929)
 endTime <- Sys.time()
 timeUsed = endTime
@@ -76,4 +76,6 @@ legend(x = "topleft",                         # Position
        col = c("blue", "grey"),               # Line colors
        lwd = 2,
        cex = 1.2)                
+
+          
 
