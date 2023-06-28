@@ -69,11 +69,11 @@ for(i in 1:300){
   lines(x_predict, pred_params$f[i, (N_obs+1):(N_obs + N_predict)], col = rgb(0, 0, 0.1, 0.1))
 }
 lines(data2$ID, data2$AAPL.Close, lty = 1, col = "blue", lwd = 3)
-legend(x = "topleft",          # Position
+legend(x = "topleft",                         # Position
        legend = c("APPL values", "GP_pred"),  # Legend texts
        pch = c(NA, NA),
-       lty = c(1, 1),           # Line types
-       col = c("blue", "grey"),           # Line colors
+       lty = c(1, 1),                         # Line types
+       col = c("blue", "grey"),               # Line colors
        lwd = 2,
-       cex = 1.2)                 # Line width
+       cex = 1.2)                
 
